@@ -1,5 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+const celebsSearchInput = document.querySelector('#celebsSearch');
 
-  console.log('IronGenerator JS imported successfully!');
+celebsSearchInput.oninput = async (event) => {
+  // request => localhost:3000/api/celebrities/
+  const requestURL = `http://localhost:3000/api/celebrities?name=${event.target.value}`;
 
-}, false);
+  const response = await axios.get(requestURL);
+
+  const ul = document.querySelector('ul');
+  ul.innerHTML = '';
+  
+  response.data.celebrities.forEach(oneCeleb => {
+    ul.innerHTML += `
+      <li>
+        <a href="/celebrities/${oneCeleb._id}">${oneCeleb.name}</a>
+
+        <a href="/celebrities/${oneCeleb._id}/edit">Editar Celebridade</a>
+
+        <form action="/celebrities/${oneCeleb._id}/delete" method="post">
+          <button type="submit">Deletar Celebridade</button>
+        </form>
+      </li>
+    `
+  });
+}

@@ -8,10 +8,11 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const cors = require('cors');
 
 
 mongoose
-  .connect('mongodb://localhost/starter-code', {useNewUrlParser: true})
+  .connect('mongodb://localhost/lab-movies', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -29,6 +30,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 
 // Express View engine setup
 
@@ -54,5 +58,13 @@ app.locals.title = 'Express - Generated with IronGenerator';
 const index = require('./routes/index');
 app.use('/', index);
 
+const celebritiesRoutes = require('./routes/celebrities.routes');
+app.use('/celebrities', celebritiesRoutes);
+
+const moviesRoutes = require('./routes/movies.routes');
+app.use('/movies', moviesRoutes);
+
+const apiRoutes = require('./routes/apiRoutes.routes');
+app.use('/api', apiRoutes)
 
 module.exports = app;
