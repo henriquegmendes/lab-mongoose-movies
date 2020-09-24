@@ -2,7 +2,7 @@ const celebsSearchInput = document.querySelector('#celebsSearch');
 
 celebsSearchInput.oninput = async (event) => {
   // request => localhost:3000/api/celebrities/
-  const requestURL = `http://localhost:3000/api/celebrities?name=${event.target.value}`;
+  const requestURL = `https://calebrities-movies-app.herokuapp.com/api/celebrities?name=${event.target.value}`;
 
   const response = await axios.get(requestURL);
 

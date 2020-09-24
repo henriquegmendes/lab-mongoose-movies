@@ -10,9 +10,8 @@ const logger       = require('morgan');
 const path         = require('path');
 const cors = require('cors');
 
-
 mongoose
-  .connect('mongodb://localhost/lab-movies', { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -31,7 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://calebrities-movies-app.herokuapp.com'],
 }));
 
 // Express View engine setup
